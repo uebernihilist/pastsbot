@@ -1,6 +1,8 @@
 require "./shards"
 require "./pastsbot/pastsbot"
 
+Log.setup(:fatal)
+
 Dotenv.load ".env"
 
 module PastsBot

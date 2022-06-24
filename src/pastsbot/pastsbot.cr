@@ -1,43 +1,33 @@
-require "./storage"
+require "./paste"
 
 module PastsBot
   class Bot
     getter client : Discord::Client
     getter prefix : Char
-    getter storage : Storage
+    getter paste : Paste
 
     def initialize
       @prefix = ':'
       @client = Discord::Client.new(token: ENV["TOKEN"], client_id: ENV["ID"].to_u64)
-      @storage = Storage.new
+      @paste = Paste.new(Path["./pastes.json"])
     end
 
     def start
-      command
+      message_create_handler
       @client.run
       Log.info { "Pastsbot started!" }
+    rescue ex : JSON::SerializableError
+      # ...
     end
 
-    def command
+    def message_create_handler
       @client.on_message_create do |payload|
         if payload.author.id == ENV["ID"].to_u64
           if payload.content.starts_with? @prefix
-            msg = payload.content.strip(@prefix)
-            if msg.starts_with? '+'
-              insert_paste msg.strip("+ ")
-              @client.create_message(payload.channel_id, "`паста добавлена!`")
-            elsif msg.starts_with? "?"
-              @client.edit_message(payload.channel_id, payload.id, @storage.get_paste(msg.strip("? ")))
-            elsif msg == "!"
-              @client.edit_message(payload.channel_id, payload.id, "```\n#{@storage.get_all_pastes.join(", ")}\n```")
-            elsif msg == "*"
-              @client.edit_message(payload.channel_id, payload.id, @storage.pastes_count)
-            elsif msg == "@"
-              @client.edit_message(payload.channel_id, payload.id,
-                "```sh\n:! # all pastes\n:* # the amount of all pastes\n" \
-                ":+ name <> paste # add new paste\n:? paste # get paste by name```\n"
-              )
-            end
+            msg = payload.content.strip(@prefix).split(3)
+            cmd, name, content = msg[0], msg[1]?, msg[2]?
+
+            command_handler cmd, name, content, {payload.channel_id, payload.id}
           else
             # Ignore
           end
@@ -45,10 +35,34 @@ module PastsBot
       end
     end
 
-    private def insert_paste(msg : String)
-      name, content = msg.split(" <> ")
-
-      @storage.insert_paste name, content
+    def command_handler(cmd : String, name : String?, content : String?, payload : Tuple(Discord::Snowflake, Discord::Snowflake))
+      @client.edit_message payload[0], payload[1],
+      case cmd
+      when "add"
+        if !content.nil?
+          @paste.add_one(name.not_nil!, content)
+          "`paste added`"
+        else
+          "no content given"
+        end
+      when "get"
+        paste = @paste.get_one?(name.not_nil!)
+        paste.nil? ? "`not found`" : paste
+      when "get-all"
+        "```#{@paste.get_all.join(", ")}```"
+      when "help"
+        "```sh\n:! # all pastes\n:* # the amount of all pastes\n" \
+        ":+ name <> paste # add new paste\n:? paste # get paste by name```\n"
+      when "size"
+        @paste.size.to_s
+      when "save"
+        @paste.save
+        "`saved!`"
+      when "get-rand"
+        @paste.get_random
+      else
+        "`wrong command`"
+      end
     end
   end
 end
