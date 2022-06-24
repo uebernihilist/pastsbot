@@ -2,7 +2,7 @@ require "./models/*"
 
 class Storage
   def initialize
-    Moongoon.connect("mongodb+srv://#{ENV["DB_USER_NAME"]}:#{ENV["DB_USER_PASSWD"]}@pastsbot.qmyxe.mongodb.net/?retryWrites=true&w=majority", ENV["DB_NAME"])
+    Moongoon.connect("mongodb+srv://#{ENV["DB_USER_NAME"]}:#{ENV["DB_USER_PASSWD"]}@#{ENV["DB_NAME"].downcase}.qmyxe.mongodb.net/?retryWrites=true&w=majority", ENV["DB_NAME"])
   end
 
   def get_paste(name : String) : String
