@@ -24,18 +24,18 @@ module PastsBot
           if payload.content.starts_with? @prefix
             msg = payload.content.strip(@prefix)
             if msg.starts_with? '+'
-              insert_past msg.strip("+ ")
+              insert_paste msg.strip("+ ")
               @client.create_message(payload.channel_id, "`паста добавлена!`")
             elsif msg.starts_with? "?"
-              @client.edit_message(payload.channel_id, payload.id, @storage.get_past(msg.strip("? ")))
+              @client.edit_message(payload.channel_id, payload.id, @storage.get_paste(msg.strip("? ")))
             elsif msg == "!"
-              @client.edit_message(payload.channel_id, payload.id, "```\n#{@storage.get_all_pasts.join(", ")}\n```")
+              @client.edit_message(payload.channel_id, payload.id, "```\n#{@storage.get_all_pastes.join(", ")}\n```")
             elsif msg == "*"
-              @client.edit_message(payload.channel_id, payload.id, @storage.pasts_count)
+              @client.edit_message(payload.channel_id, payload.id, @storage.pastes_count)
             elsif msg == "@"
               @client.edit_message(payload.channel_id, payload.id,
-                "```\n:! или :все -- все пасты\n:* -- кол-во паст\n" \
-                ":+ имя <> паста -- добавить пасту\n:? паста -- получить пасту```\n"
+                "```sh\n:! # all pastes\n:* # the amount of all pastes\n" \
+                ":+ name <> paste # add new paste\n:? paste # get paste by name```\n"
               )
             end
           else
@@ -45,10 +45,10 @@ module PastsBot
       end
     end
 
-    private def insert_past(msg : String)
+    private def insert_paste(msg : String)
       name, content = msg.split(" <> ")
 
-      @storage.insert_past name, content
+      @storage.insert_paste name, content
     end
   end
 end
