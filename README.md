@@ -54,6 +54,12 @@ ID # Discord user ID
 PREFIX # Selfbot prefix
 ```
 
+Also create `pastes.json` in the root and put this into it:
+
+```json
+{"ping":"pong"}
+```
+
 Run the binary. Profit!
 
 ### Commands
