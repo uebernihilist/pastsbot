@@ -13,8 +13,6 @@ dependencies:
     github: shardlab/discordcr
   dotenv:
     github: gdotdesign/cr-dotenv
-  moongoon:
-    github: elbywan/moongoon
 
 crystal: 1.4.1
 
