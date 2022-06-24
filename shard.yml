@@ -1,0 +1,21 @@
+name: pastsbot
+version: 0.1.0
+
+authors:
+  - uebernihilist
+
+targets:
+  pastsbot:
+    main: src/pastsbot.cr
+
+dependencies:
+  discordcr:
+    github: shardlab/discordcr
+  dotenv:
+    github: gdotdesign/cr-dotenv
+  moongoon:
+    github: elbywan/moongoon
+
+crystal: 1.4.1
+
+license: MIT

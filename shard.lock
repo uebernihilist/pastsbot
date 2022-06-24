@@ -1,0 +1,38 @@
+version: 2.0
+shards:
+  bson:
+    git: https://github.com/elbywan/bson.cr.git
+    version: 0.3.3
+
+  coffee:
+    git: https://github.com/636f7374/coffee.cr.git
+    version: 0.1.1
+
+  cryomongo:
+    git: https://github.com/elbywan/cryomongo.git
+    version: 0.3.10
+
+  discordcr:
+    git: https://github.com/shardlab/discordcr.git
+    version: 0.4.1
+
+  dotenv:
+    git: https://github.com/gdotdesign/cr-dotenv.git
+    version: 1.0.0
+
+  durian:
+    git: https://github.com/636f7374/durian.cr.git
+    version: 0.1.5
+
+  ipaddress:
+    git: https://github.com/64726f70/ipaddress.cr.git
+    version: 1.0.0
+
+  moongoon:
+    git: https://github.com/elbywan/moongoon.git
+    version: 0.7.4
+
+  wrench:
+    git: https://github.com/73686f77/wrench.cr.git
+    version: 0.1.3
+
