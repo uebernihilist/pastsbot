@@ -28,11 +28,11 @@ module PastsBot
               @client.create_message(payload.channel_id, "`паста добавлена!`")
             elsif msg.starts_with? "?"
               @client.edit_message(payload.channel_id, payload.id, @storage.get_past(msg.strip("? ")))
-            elsif msg == "!" || msg == "все"
+            elsif msg == "!"
               @client.edit_message(payload.channel_id, payload.id, "```\n#{@storage.get_all_pasts.join(", ")}\n```")
             elsif msg == "*"
               @client.edit_message(payload.channel_id, payload.id, @storage.pasts_count)
-            elsif msg == "@" || msg == "помощь"
+            elsif msg == "@"
               @client.edit_message(payload.channel_id, payload.id,
                 "```\n:! или :все -- все пасты\n:* -- кол-во паст\n" \
                 ":+ имя <> паста -- добавить пасту\n:? паста -- получить пасту```\n"
