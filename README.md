@@ -51,21 +51,23 @@ After installation you need to create an `.env` file in the root of the project 
 ```sh
 TOKEN # Discord user token
 ID # Discord user ID
-DB_NAME # MongoDB DB name
-DB_USER_NAME # MongoDB DB user name
-DB_USER_PASSWD # MongoDB DB user password
+PREFIX # Selfbot prefix
 ```
 
 Run the binary. Profit!
 
 ### Commands
 
+Let the prefix be ?
+
 ```sh
-:! # name all pastes
-:* # tthe amount of all pastes
-:+ name <> past # add new past
-:? past # get paste by name
-:@ # show this help message
+?add name content # add new paste to memory
+?get name # get paste by name
+?get-all # get all pastes
+?get-rand # get random paste
+?size # amount of pastes
+?save # save pastes to disk from memory
+?help # show this message
 ```
 
 ## Contributing

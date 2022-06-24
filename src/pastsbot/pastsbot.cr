@@ -3,11 +3,11 @@ require "./paste"
 module PastsBot
   class Bot
     getter client : Discord::Client
-    getter prefix : Char
+    getter prefix : Char | String
     getter paste : Paste
 
     def initialize
-      @prefix = ':'
+      @prefix = ENV["PREFIX"]
       @client = Discord::Client.new(token: ENV["TOKEN"], client_id: ENV["ID"].to_u64)
       @paste = Paste.new(Path["./pastes.json"])
     end
@@ -43,7 +43,7 @@ module PastsBot
           @paste.add_one(name.not_nil!, content)
           "`paste added`"
         else
-          "no content given"
+          "`no content given`"
         end
       when "get"
         paste = @paste.get_one?(name.not_nil!)
@@ -51,8 +51,19 @@ module PastsBot
       when "get-all"
         "```#{@paste.get_all.join(", ")}```"
       when "help"
-        "```sh\n:! # all pastes\n:* # the amount of all pastes\n" \
-        ":+ name <> paste # add new paste\n:? paste # get paste by name```\n"
+        <<-STRING
+        ```
+        Let the prefix be ?
+
+        ?add <name> <content> # add new paste to memory
+        ?get <name> # get paste by name
+        ?get-all    # get all pastes
+        ?get-rand   # get random paste
+        ?size       # amount of pastes
+        ?save       # save pastes to disk from memory
+        ?help       # show this message
+        ```
+        STRING
       when "size"
         @paste.size.to_s
       when "save"
