@@ -46,15 +46,15 @@ shards build --release
 
 ## Usage
 
-After installation you need to create an `.env` file in the root of the project with the following variables:
+After installation you need to create the following ENV variables:
 
 ```sh
-TOKEN # Discord user token
-ID # Discord user ID
-PREFIX # Selfbot prefix
+TOKEN=your_token # Discord user token
+ID=your_id # Discord user ID
+PREFIX=your_prefix # Selfbot prefix
 ```
 
-Also create `pastes.json` in the root and put this into it:
+Also create `pastes.json` in the root of the project and put this into it:
 
 ```json
 {"ping":"pong"}

@@ -4,7 +4,7 @@ module PastsBot
   class Bot
     getter client : Discord::Client
     getter prefix : Char | String
-    getter paste : Paste
+    getter paste  : Paste
 
     def initialize
       @prefix = ENV["PREFIX"]
@@ -22,7 +22,7 @@ module PastsBot
 
     def message_create_handler
       @client.on_message_create do |payload|
-        if payload.author.id == ENV["ID"].to_u64
+        if check_id(payload.author.id)
           if payload.content.starts_with? @prefix
             msg = payload.content.strip(@prefix).split(3)
             cmd, name, content = msg[0], msg[1]?, msg[2]?
@@ -45,6 +45,13 @@ module PastsBot
         else
           "`no content given`"
         end
+      when "add-save"
+        if !content.nil?
+          @paste.add_one_and_save(name.not_nil!, content)
+          "`paste added and saved`"
+        else
+          "`no content given`"
+        end
       when "get"
         paste = @paste.get_one?(name.not_nil!)
         paste.nil? ? "`not found`" : paste
@@ -55,7 +62,8 @@ module PastsBot
         ```
         Let the prefix be ?
 
-        ?add <name> <content> # add new paste to memory
+        ?add-save <name> <content> # add new paste to memory and save to the disk
+        ?add <name> <content> # add new paste to memory without saving it
         ?get <name> # get paste by name
         ?get-all    # get all pastes
         ?get-rand   # get random paste
@@ -75,5 +83,9 @@ module PastsBot
         "`wrong command`"
       end
     end
+  end
+
+  private def check_id(id : UInt64)
+    id == ENV["ID"].to_u64
   end
 end

@@ -19,8 +19,15 @@ class Paste
   def initialize(@store, @path)
   end
 
+  # Adds paste
   def add_one(name : String, content : String)
     @store[name] = content
+  end
+
+  # Adds paste and saves
+  def add_one_and_save(name, content)
+    add_one(name, content)
+    save()
   end
 
   def get_all : Array(String)
