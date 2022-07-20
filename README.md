@@ -1,6 +1,7 @@
 # pastsbot
 
 USE [THIS](https://github.com/Funny-Words/elixir_pastsbot) INSTEAD
+
 Simple Discord selfbot for trolling using pastes
 
 ## Installation
